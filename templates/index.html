@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligado Abregu</title>
+</head>
+<body>
+    <h1>Disco Eterno</h1>
+    <button onclick="startPlayback()">Start Playback</button>
+    <button onclick="stopPlayback()">Stop Playback</button>
+
+    <script>
+        function startPlayback() {
+            fetch("/start").then(function(response) {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error("Network response was not ok: " + response.status);
+            }).then(function(data) {
+                console.log(data);
+            }).catch(function(error) {
+                console.error("Error starting playback:", error);
+            });
+        }
+
+        function stopPlayback() {
+            fetch("/stop").then(function(response) {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error("Network response was not ok: " + response.status);
+            }).then(function(data) {
+                console.log(data);
+            }).catch(function(error) {
+                console.error("Error stopping playback:", error);
+            });
+        }
+
+        window.addEventListener("unload", function() {
+            fetch("/stop", { method: "POST", body: "" });
+        });
+    </script>
+</body>
+</html>
